@@ -60,6 +60,35 @@ void insert_first_siswa(listSiswa &P, adrSiswa p)
         first(P) = p;
     }
 }
+void insert_last_siswa(listSiswa &P, adrSiswa p){
+    if(first(P)==NULL){
+        first(P) = p;
+        last(P) = p;
+        next(p) = p;
+        prev(p) = p;
+    }else{
+        next(last(P)) = p;
+        next(p) = first(P);
+        prev(p) = last(P);
+        prev(first(P)) = p;
+        last(P) = p;
+    }
+}
+
+void insert_after_siswa(listSiswa &P, adrSiswa p, adrSiswa prec){
+    if(first(P) != NULL){
+        if(next(prec)==first(P)){
+            insert_last_siswa(P,p);
+        }else{
+            adrSiswa q = next(prec);
+            next(prec) = p;
+            prev(p) = prec;
+            next(p) = q;
+            prev(q) = p;
+        }
+    }
+}
+
 // Jadiin Circular Double Linked list (dengan last)
 void insert_first_matkul(listMatkul &P, adrMatkul p)
 {
@@ -77,6 +106,35 @@ void insert_first_matkul(listMatkul &P, adrMatkul p)
         next(last(P)) = p;
         prev(p) = last(P);
         first(P) = p;
+    }
+}
+
+void insert_last_matkul(listMatkul &P, adrMatkul p){
+    if(first(P)==NULL){
+        first(P) = p;
+        last(P) = p;
+        next(p) = p;
+        prev(p) = p;
+    }else{
+        next(last(P)) = p;
+        next(p) = first(P);
+        prev(p) = last(P);
+        prev(first(P)) = p;
+        last(P) = p;
+    }
+}
+
+void insert_after_matkul(listMatkul &P, adrMatkul p, adrMatkul prec){
+    if(first(P) != NULL){
+        if(next(prec)==first(P)){
+            insert_last_matkul(P,p);
+        }else{
+            adrMatkul q = next(prec);
+            next(prec) = p;
+            prev(p) = prec;
+            next(p) = q;
+            prev(q) = p;
+        }
     }
 }
 // Single Linked List (tanpa last)
@@ -286,7 +344,7 @@ adrMatkul find_matkul(listMatkul M, string data)
 
 void insertSiswa(listSiswa &P)
 {
-    adrSiswa s;
+    adrSiswa s, prec;
     info_siswa is;
     string t;
     cout << "1. Insert First\n2. Insert Last\n3. Insert After\nChoose : ";
@@ -318,20 +376,35 @@ void insertSiswa(listSiswa &P)
         cin >> is.kelas;
         cout << "Jenis Mahasiswa    : ";
         cin >> is.jenis;
-        if(is.jenis!="INT" || is.jenis !="Reguler"){
+        if(is.jenis!="INT" && is.jenis !="Reguler"){
             cout << "Invalid\nSet to Reguler by default\n";
             is.jenis = "Reguler";
         }
         s = newSiswa(is);
-        //-----
+        insert_last_siswa(P, s);
     }
-    else if (t == "3")
+    else if (t == "3" && first(P)!=NULL)
     {
         printSiswa(P);
-        cout << "Where do you want to input : ";
+        cout << "Input after (Student name): ";
         cin >> t;
-        s = find_siswa(P, t);
-        //-----
+        prec = find_siswa(P, t);
+        if(s!=NULL){
+            cout << "Nama               : ";
+            cin >> is.nama_siswa;
+            cout << "NIM                : ";
+            cin >> is.nim;
+            cout << "Kelas              : ";
+            cin >> is.kelas;
+            cout << "Jenis Mahasiswa    : ";
+            cin >> is.jenis;
+            if(is.jenis!="INT" && is.jenis !="Reguler"){
+                cout << "Invalid\nSet to Reguler by default\n";
+                is.jenis = "Reguler";
+            }
+            s = newSiswa(is);
+            insert_after_siswa(P, s, prec);
+        }
     }
     else
     {
@@ -342,7 +415,7 @@ void insertSiswa(listSiswa &P)
 
 void insertMatkul(listMatkul &M)
 {
-    adrMatkul m;
+    adrMatkul m, prec;
     info_matkul im;
     string t;
     cout << "1. Insert First\n2. Insert Last\n3. Insert After\nChoose : ";
@@ -381,14 +454,31 @@ void insertMatkul(listMatkul &M)
             im.jenis = "Reguler";
         }
         m = newMatkul(im);
-        //-----
+        insert_last_matkul(M, m);
     }
-    else if (t == "3")
+    else if (t == "3" && first(M)!=NULL)
     {
         printMatkul(M);
-        cout << "Where do you want to input : ";
+        cout << "Input after (Matkul name) : ";
         cin >> t;
-        m = find_matkul(M, t);
+        prec = find_matkul(M, t);
+        if(m!=NULL){
+            im.total = 0;
+            cout << "Nama Mata Kuliah   : ";
+            cin >> im.nama_matkul;
+            cout << "Kelas yang Diajar  : ";
+            cin >> im.kelas_matkul;
+            cout << "Kuota Maksimal     : ";
+            cin >> im.max;
+            cout << "Jenis Mahasiswa    : ";
+            cin >> im.jenis;
+        if(im.jenis!="INT" && im.jenis !="Reguler"){
+            cout << "Invalid\nSet to Reguler by default\n";
+            im.jenis = "Reguler";
+        }
+        m = newMatkul(im);
+        insert_after_matkul(M,m,prec);
+        }
     }
     else
     {
