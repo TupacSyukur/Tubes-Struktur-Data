@@ -15,7 +15,7 @@ int main()
 
     string n = "-1";
 
-    cout << "xixixi";
+    cout << "Multi Linked List Gittinger\n";
 
     create_list_matkul(M);
     create_list_siswa(S);
@@ -36,7 +36,7 @@ int main()
         }
         else if (n == "4")
         { // Edit Siswa
-            cout << first(M)->goRelation->next->info->info.nama_siswa;
+            
         }
         else if (n == "5")
         { // Edit Matkul
