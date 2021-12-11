@@ -148,14 +148,12 @@ void insert_relation(listMatkul &M, adrMatkul &m, adrRelation p)
         }
         else
         {
-            cout << "xixixi\n";
             adrRelation c = m->goRelation;
             while (next(c) != NULL)
             {
                 c = next(c);
             }
             next(c) = p;
-            cout << " --- " << info(next(c))->info.nama_siswa;
         }
     }
 }
@@ -166,12 +164,12 @@ void printSiswa(listSiswa P)
     {
         int n = 1;
         adrSiswa p = first(P);
-        cout << n << ". " << info(p).nama_siswa << " | " << info(p).kelas << endl;
+        cout << n << ". " << info(p).nama_siswa << " | " << info(p).nim << " | " << info(p).kelas << " | " << info(p).jenis << endl;
         p = next(p);
         while (p != first(P))
         {
             n++;
-            cout << n << ". " << info(p).nama_siswa << " | " << info(p).kelas << endl;
+            cout << n << ". " << info(p).nama_siswa << " | " << info(p).nim << " | " << info(p).kelas << " | " << info(p).jenis << endl;
             p = next(p);
         }
         
@@ -189,13 +187,13 @@ void printMatkul(listMatkul P)
     {
         int n = 1;
         adrMatkul p = first(P);
-        cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).total <<"/"<<info(p).max;
+        cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | "<< info(p).jenis << " | " <<info(p).total <<"/"<<info(p).max;
         p = next(p);
         cout << endl;
         while (p != first(P))
         {
             n++;
-            cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).total <<"/"<<info(p).max <<endl;
+            cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).jenis << " | " << info(p).total <<"/"<<info(p).max <<endl;
             p = next(p);
         }
     }else
@@ -211,7 +209,7 @@ void printRelation(listMatkul P)
     if (first(P) != NULL)
     {
         printMatkul(P);
-        cout << "Choose : ";
+        cout << "Choose Matkul Name : ";
         string t;
         cin >> t;
         adrMatkul m = find_matkul(P, t);
@@ -219,10 +217,10 @@ void printRelation(listMatkul P)
         {
             int n = 1;
             adrRelation c = m->goRelation;
-            cout << "Siswa dari Mata Kuliah " << info(m).nama_matkul << " :\n";
+            cout << "Siswa dari Mata Kuliah " << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis <<" :\n";
             while (c != NULL)
             {
-                cout << n << ". " << info(c)->info.nama_siswa << " | " << info(c)->info.kelas << endl;
+                cout << n << ". " << info(c)->info.nama_siswa << " | " << info(c)->info.nim <<endl;
                 c = next(c);
                 n++;
             }
@@ -239,7 +237,7 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
     {
         string t;
         printMatkul(M);
-        cout << "Choose Matkul : ";
+        cout << "Choose Matkul Name : ";
         cin >> t;
         adrMatkul m = find_matkul(M, t);
         if (m != NULL && info(m).total != info(m).max)
@@ -252,7 +250,7 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
             if (t == "1")
             {
                 printSiswa(S);
-                cout << "Choose Siswa : ";
+                cout << "Choose Siswa Name : ";
                 cin >> t;
                 s = find_siswa(S, t);
                 
