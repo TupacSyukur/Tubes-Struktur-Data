@@ -15,6 +15,8 @@ int main()
 
     string n = "-1";
 
+    cout << "xixixi";
+
     create_list_matkul(M);
     create_list_siswa(S);
     while (n != "0")
