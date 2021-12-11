@@ -90,12 +90,14 @@ void insert_relation(listMatkul &M, adrMatkul &m, adrRelation p)
         }
         else
         {
+            cout << "xixixi\n";
             adrRelation c = m->goRelation;
             while (next(c) != NULL)
             {
                 c = next(c);
             }
             next(c) = p;
+            cout << " --- " << info(next(c))->info.nama_siswa;
         }
     }
 }
@@ -129,7 +131,7 @@ void printMatkul(listMatkul P)
         cout << info(p).nama_matkul << " | ";
         p = next(p);
         cout << endl;
-        while (p != NULL)
+        while (p != first(P))
         {
             cout << info(p).nama_matkul << " | ";
             p = next(p);
@@ -187,6 +189,7 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
                 cout << "Choose Siswa : ";
                 cin >> t;
                 s = find_siswa(S, t);
+                
                 if (s != NULL)
                 {
                     p = newRelation(s);
@@ -231,32 +234,16 @@ string menu()
 adrSiswa find_siswa(listSiswa S, string data)
 {
     adrSiswa p = NULL;
-    if (first(S) != NULL)
-    {
-        bool cek;
+    if(first(S)!=NULL){
         p = first(S);
-        if (info(p).nama_siswa == data)
-        {
-            cek = false;
-        }
-        else
-        {
-            cek = true;
-        }
-        p = next(p);
-        while (p != first(S) && cek)
-        {
-            if (info(p).nama_siswa != data)
-            {
+        bool cek = true;
+        while(p!=last(S) && cek){
+            if(info(p).nama_siswa != data){
                 p = next(p);
-            }
-            else
-            {
+            }else{
                 cek = false;
             }
         }
-        if (cek)
-            p = NULL;
     }
     return p;
 }
@@ -265,32 +252,16 @@ adrSiswa find_siswa(listSiswa S, string data)
 adrMatkul find_matkul(listMatkul M, string data)
 {
     adrMatkul p = NULL;
-    if (first(M) != NULL)
-    {
-        bool cek;
+    if(first(M)!=NULL){
         p = first(M);
-        if (info(p).nama_matkul == data)
-        {
-            cek = false;
-        }
-        else
-        {
-            cek = true;
-        }
-        p = next(p);
-        while (p != first(M) && cek)
-        {
-            if (info(p).nama_matkul != data)
-            {
+        bool cek = true;
+        while(p!=last(M) && cek){
+            if(info(p).nama_matkul != data){
                 p = next(p);
-            }
-            else
-            {
+            }else{
                 cek = false;
             }
         }
-        if (cek)
-            p = NULL;
     }
     return p;
 }

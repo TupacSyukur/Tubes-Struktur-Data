@@ -36,6 +36,7 @@ int main()
         }
         else if (n == "4")
         { // Edit Siswa
+            cout << first(M)->goRelation->next->info->info.nama_siswa;
         }
         else if (n == "5")
         { // Edit Matkul
