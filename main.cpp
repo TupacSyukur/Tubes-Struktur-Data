@@ -65,12 +65,31 @@ int main()
         }
         else if (n == "12")
         { // Cari Siswa
+            cout << "Search Siswa Name : ";
+            cin >> is.nama_siswa;
+            s = find_siswa(S, is.nama_siswa);
+            if(s!=NULL){
+                cout << "\nFound\n";
+                cout << info(s).nama_siswa << " | " << info(s).nim << " | " << " | " << info(s).kelas << " | " << info(s).jenis << endl;
+            }else{
+                cout << "\nNot Found\n";
+            }
         }
         else if (n == "13")
         { // Cari Matkul
+            cout << "Search Matkul Name : ";
+            cin >> im.nama_matkul;
+            m = find_matkul(M, im.nama_matkul);
+            if(m!=NULL){
+                cout << "\nFound\n";
+                cout << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max <<endl;
+            }else{
+                cout << "\nNot Found\n";
+            }
         }
         else if (n == "14")
         { // Cari Siswa dalam Matkul
+            find_siswa_in_matkul(S,M);
         }
         else if (n != "0")
         { // Exit

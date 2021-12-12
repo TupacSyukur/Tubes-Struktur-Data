@@ -348,7 +348,9 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
         printMatkul(M);
         cout << "Choose Matkul Name : ";
         cin >> t;
-        adrMatkul m = find_matkul(M, t);
+        adrMatkul m;
+        m = find_matkul(M, t);
+        cout << (m==NULL);
         if (m != NULL && info(m).total != info(m).max)
         {
             adrSiswa s;
@@ -371,7 +373,7 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
                     info(m).total++;
                 }
             }
-            else
+            else if(t == "2")
             {
                 info_siswa is;
                 cout << "Nama               : ";
@@ -422,14 +424,15 @@ adrSiswa find_siswa(listSiswa S, string data)
     {
         p = first(S);
         bool cek = true;
-        while (p != last(S) && cek)
-        {
-            if (info(p).nama_siswa != data)
-            {
+        if (info(p).nama_siswa != data){
+            p = next(p);
+        }else{
+            cek = false;
+        }
+        while (p != first(S) && cek){
+            if (info(p).nama_siswa != data){
                 p = next(p);
-            }
-            else
-            {
+            }else{
                 cek = false;
             }
         }
@@ -448,7 +451,12 @@ adrMatkul find_matkul(listMatkul M, string data)
     {
         p = first(M);
         bool cek = true;
-        while (p != last(M) && cek)
+        if (info(p).nama_matkul != data){
+            p = next(p);
+        }else{
+            cek = false;
+        }
+        while (p != first(M) && cek)
         {
             if (info(p).nama_matkul != data)
             {
@@ -464,6 +472,47 @@ adrMatkul find_matkul(listMatkul M, string data)
         }
     }
     return p;
+}
+
+void find_siswa_in_matkul(listSiswa S, listMatkul M){
+    info_siswa is;
+    adrSiswa s;
+    adrMatkul m;
+    adrRelation r;
+    int n = 0;
+    if(first(S)!=NULL && first(M)!=NULL){
+        cout << "Search Siswa Name : ";
+        cin >> is.nama_siswa;
+        s = find_siswa(S, is.nama_siswa);
+        if(s!=NULL){
+            m = first(M);
+            r = m->goRelation;
+            while(r!=NULL){
+                if(r->info->info.nama_siswa == s->info.nama_siswa){
+                cout << info(m).nama_matkul << " | ";
+                n = 1;
+                }
+                r = next(r);
+            }
+            m = next(m);
+            while(m!=first(M)){
+                r = m->goRelation;
+                while(r!=NULL){
+                    if(r->info->info.nama_siswa == s->info.nama_siswa){
+                    cout << info(m).nama_matkul << " | ";
+                    }
+                    r = next(r);
+                }
+                m = next(m);
+            }
+        }
+        if(n==0){
+            cout << "\nNot Found\n";
+        }
+    }else{
+        cout << "\nEmpty\n";
+    }
+    
 }
 
 void insertSiswa(listSiswa &P)

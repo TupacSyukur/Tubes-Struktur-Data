@@ -94,6 +94,7 @@ string menu();
 
 adrSiswa find_siswa(listSiswa S, string data);
 adrMatkul find_matkul(listMatkul M, string data);
+void find_siswa_in_matkul(listSiswa S, listMatkul M);
 
 // ETC
 void insertSiswa(listSiswa &S);
