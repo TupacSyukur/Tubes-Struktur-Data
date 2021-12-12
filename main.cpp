@@ -10,6 +10,7 @@ int main()
     adrSiswa s;
     adrMatkul m;
     adrRelation p;
+    adrRelation q;
     info_siswa is;
     info_matkul im;
 
@@ -36,7 +37,6 @@ int main()
         }
         else if (n == "4")
         { // Edit Siswa
-            
         }
         else if (n == "5")
         { // Edit Matkul
@@ -49,6 +49,7 @@ int main()
         }
         else if (n == "8")
         { // Delete Siswa dalam Matkul
+            q = delete_relation(M);
         }
         else if (n == "9")
         { // Print Siswa

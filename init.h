@@ -80,6 +80,11 @@ void insert_last_matkul(listMatkul &P, adrMatkul p);
 void insert_last_siswa(listSiswa &P, adrSiswa p);
 void insert_after_siswa(listSiswa &P, adrSiswa p, adrSiswa prec);
 void insert_after_matkul(listMatkul &P, adrMatkul p, adrMatkul prec);
+// Delete
+adrRelation delete_first_relation(listMatkul &M, adrMatkul &m);
+adrRelation delete_last_relation(listMatkul &M, adrMatkul &m);
+adrRelation delete_after_relation(listMatkul &M, adrMatkul &m, adrRelation prec);
+adrRelation delete_relation(listMatkul &M, adrMatkul &m);
 //
 void printSiswa(listSiswa P);
 void printMatkul(listMatkul P);

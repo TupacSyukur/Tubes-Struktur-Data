@@ -60,13 +60,17 @@ void insert_first_siswa(listSiswa &P, adrSiswa p)
         first(P) = p;
     }
 }
-void insert_last_siswa(listSiswa &P, adrSiswa p){
-    if(first(P)==NULL){
+void insert_last_siswa(listSiswa &P, adrSiswa p)
+{
+    if (first(P) == NULL)
+    {
         first(P) = p;
         last(P) = p;
         next(p) = p;
         prev(p) = p;
-    }else{
+    }
+    else
+    {
         next(last(P)) = p;
         next(p) = first(P);
         prev(p) = last(P);
@@ -75,11 +79,16 @@ void insert_last_siswa(listSiswa &P, adrSiswa p){
     }
 }
 
-void insert_after_siswa(listSiswa &P, adrSiswa p, adrSiswa prec){
-    if(first(P) != NULL){
-        if(next(prec)==first(P)){
-            insert_last_siswa(P,p);
-        }else{
+void insert_after_siswa(listSiswa &P, adrSiswa p, adrSiswa prec)
+{
+    if (first(P) != NULL)
+    {
+        if (next(prec) == first(P))
+        {
+            insert_last_siswa(P, p);
+        }
+        else
+        {
             adrSiswa q = next(prec);
             next(prec) = p;
             prev(p) = prec;
@@ -109,13 +118,17 @@ void insert_first_matkul(listMatkul &P, adrMatkul p)
     }
 }
 
-void insert_last_matkul(listMatkul &P, adrMatkul p){
-    if(first(P)==NULL){
+void insert_last_matkul(listMatkul &P, adrMatkul p)
+{
+    if (first(P) == NULL)
+    {
         first(P) = p;
         last(P) = p;
         next(p) = p;
         prev(p) = p;
-    }else{
+    }
+    else
+    {
         next(last(P)) = p;
         next(p) = first(P);
         prev(p) = last(P);
@@ -124,11 +137,16 @@ void insert_last_matkul(listMatkul &P, adrMatkul p){
     }
 }
 
-void insert_after_matkul(listMatkul &P, adrMatkul p, adrMatkul prec){
-    if(first(P) != NULL){
-        if(next(prec)==first(P)){
-            insert_last_matkul(P,p);
-        }else{
+void insert_after_matkul(listMatkul &P, adrMatkul p, adrMatkul prec)
+{
+    if (first(P) != NULL)
+    {
+        if (next(prec) == first(P))
+        {
+            insert_last_matkul(P, p);
+        }
+        else
+        {
             adrMatkul q = next(prec);
             next(prec) = p;
             prev(p) = prec;
@@ -157,6 +175,95 @@ void insert_relation(listMatkul &M, adrMatkul &m, adrRelation p)
         }
     }
 }
+
+// Delete Section
+
+// Delete Relation
+adrRelation delete_first_relation(listMatkul &M, adrMatkul &m)
+{
+    adrRelation p = m->goRelation;
+    m->goRelation = next(p);
+    next(p) = NULL;
+
+    return p;
+}
+
+adrRelation delete_last_relation(listMatkul &M, adrMatkul &m)
+{
+    adrRelation p = m->goRelation;
+    while (next(p) != NULL)
+    {
+        p = next(p);
+    }
+    adrRelation q = next(p);
+    next(p) = NULL;
+
+    return q;
+}
+
+adrRelation delete_after_relation(listMatkul &M, adrMatkul &m, adrRelation prec)
+{
+    adrRelation p = next(prec);
+    next(prec) = next(p);
+    next(p) = NULL;
+
+    return p;
+}
+
+adrRelation delete_relation(listMatkul &M)
+{
+    adrRelation p = NULL;
+
+    printMatkul(M);
+
+    string matkul;
+    cout << "Pilih mata kuliah : ";
+    cin >> matkul;
+    adrMatkul m = find_matkul(M, matkul);
+    adrMatkul n = m;
+    cout << n << endl;
+    if (n == NULL)
+    {
+        cout << "Mata kuliah tidak ditemukan." << endl;
+        return p;
+    }
+
+    adrRelation q = m->goRelation;
+
+    string mahasiswa;
+    cout << "Nama Mahasiswa : ";
+    cin >> mahasiswa;
+
+    while (info(q)->info.nama_siswa != mahasiswa && q != NULL)
+        q = next(q);
+
+    if (q == NULL)
+    {
+        cout << "Tidak ada siswa yang bernama " << mahasiswa << " di mata kuliah ini." << endl;
+        return p;
+    }
+    else
+    {
+        if (q == m->goRelation)
+        {
+            p = delete_first_relation(M, m);
+        }
+        else if (next(q) == NULL)
+        {
+            p = delete_last_relation(M, m);
+        }
+        else
+        {
+            adrRelation prec = m->goRelation;
+            while (next(prec) != q)
+                prec = next(prec);
+            p = delete_after_relation(M, m, prec);
+        }
+        m->info.total -= 1;
+    }
+
+    return p;
+}
 // Double Linked List (dengan last)
 void printSiswa(listSiswa P)
 {
@@ -172,7 +279,6 @@ void printSiswa(listSiswa P)
             cout << n << ". " << info(p).nama_siswa << " | " << info(p).nim << " | " << info(p).kelas << " | " << info(p).jenis << endl;
             p = next(p);
         }
-        
     }
     else
     {
@@ -187,20 +293,21 @@ void printMatkul(listMatkul P)
     {
         int n = 1;
         adrMatkul p = first(P);
-        cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | "<< info(p).jenis << " | " <<info(p).total <<"/"<<info(p).max;
+        cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).jenis << " | " << info(p).total << "/" << info(p).max;
         p = next(p);
         cout << endl;
         while (p != first(P))
         {
             n++;
-            cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).jenis << " | " << info(p).total <<"/"<<info(p).max <<endl;
+            cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).jenis << " | " << info(p).total << "/" << info(p).max << endl;
             p = next(p);
         }
-    }else
+    }
+    else
     {
         cout << "Empty\n";
     }
-    cout << endl; 
+    cout << endl;
 }
 
 // Single Linked List (without last)
@@ -217,15 +324,17 @@ void printRelation(listMatkul P)
         {
             int n = 1;
             adrRelation c = m->goRelation;
-            cout << "Siswa dari Mata Kuliah " << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis <<" :\n";
+            cout << "Siswa dari Mata Kuliah " << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " :\n";
             while (c != NULL)
             {
-                cout << n << ". " << info(c)->info.nama_siswa << " | " << info(c)->info.nim <<endl;
+                cout << n << ". " << info(c)->info.nama_siswa << " | " << info(c)->info.nim << endl;
                 c = next(c);
                 n++;
             }
         }
-    }else{
+    }
+    else
+    {
         cout << "Empty\n";
     }
     cout << endl;
@@ -253,7 +362,7 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
                 cout << "Choose Siswa Name : ";
                 cin >> t;
                 s = find_siswa(S, t);
-                
+
                 if (s != NULL)
                 {
                     p = newRelation(s);
@@ -273,7 +382,8 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
                 cin >> is.kelas;
                 cout << "Jenis Mahasiswa    : ";
                 cin >> is.jenis;
-                if(is.jenis!="INT" && is.jenis !="Reguler"){
+                if (is.jenis != "INT" && is.jenis != "Reguler")
+                {
                     cout << "Invalid\nSet to Reguler by default\n";
                     is.jenis = "Reguler";
                 }
@@ -308,13 +418,18 @@ string menu()
 adrSiswa find_siswa(listSiswa S, string data)
 {
     adrSiswa p = NULL;
-    if(first(S)!=NULL){
+    if (first(S) != NULL)
+    {
         p = first(S);
         bool cek = true;
-        while(p!=last(S) && cek){
-            if(info(p).nama_siswa != data){
+        while (p != last(S) && cek)
+        {
+            if (info(p).nama_siswa != data)
+            {
                 p = next(p);
-            }else{
+            }
+            else
+            {
                 cek = false;
             }
         }
@@ -326,13 +441,18 @@ adrSiswa find_siswa(listSiswa S, string data)
 adrMatkul find_matkul(listMatkul M, string data)
 {
     adrMatkul p = NULL;
-    if(first(M)!=NULL){
+    if (first(M) != NULL)
+    {
         p = first(M);
         bool cek = true;
-        while(p!=last(M) && cek){
-            if(info(p).nama_matkul != data){
+        while (p != last(M) && cek)
+        {
+            if (info(p).nama_matkul != data)
+            {
                 p = next(p);
-            }else{
+            }
+            else
+            {
                 cek = false;
             }
         }
@@ -357,7 +477,8 @@ void insertSiswa(listSiswa &P)
         cin >> is.kelas;
         cout << "Jenis Mahasiswa    : ";
         cin >> is.jenis;
-        if(is.jenis!="INT" && is.jenis !="Reguler"){
+        if (is.jenis != "INT" && is.jenis != "Reguler")
+        {
             cout << "Invalid\nSet to Reguler by default\n";
             is.jenis = "Reguler";
         }
@@ -374,20 +495,22 @@ void insertSiswa(listSiswa &P)
         cin >> is.kelas;
         cout << "Jenis Mahasiswa    : ";
         cin >> is.jenis;
-        if(is.jenis!="INT" && is.jenis !="Reguler"){
+        if (is.jenis != "INT" && is.jenis != "Reguler")
+        {
             cout << "Invalid\nSet to Reguler by default\n";
             is.jenis = "Reguler";
         }
         s = newSiswa(is);
         insert_last_siswa(P, s);
     }
-    else if (t == "3" && first(P)!=NULL)
+    else if (t == "3" && first(P) != NULL)
     {
         printSiswa(P);
         cout << "Input after (Student name): ";
         cin >> t;
         prec = find_siswa(P, t);
-        if(s!=NULL){
+        if (s != NULL)
+        {
             cout << "Nama               : ";
             cin >> is.nama_siswa;
             cout << "NIM                : ";
@@ -396,7 +519,8 @@ void insertSiswa(listSiswa &P)
             cin >> is.kelas;
             cout << "Jenis Mahasiswa    : ";
             cin >> is.jenis;
-            if(is.jenis!="INT" && is.jenis !="Reguler"){
+            if (is.jenis != "INT" && is.jenis != "Reguler")
+            {
                 cout << "Invalid\nSet to Reguler by default\n";
                 is.jenis = "Reguler";
             }
@@ -429,7 +553,8 @@ void insertMatkul(listMatkul &M)
         cin >> im.max;
         cout << "Jenis Mahasiswa    : ";
         cin >> im.jenis;
-        if(im.jenis!="INT" && im.jenis !="Reguler"){
+        if (im.jenis != "INT" && im.jenis != "Reguler")
+        {
             cout << "Invalid\nSet to Reguler by default\n";
             im.jenis = "Reguler";
         }
@@ -447,20 +572,22 @@ void insertMatkul(listMatkul &M)
         cin >> im.max;
         cout << "Jenis Mahasiswa    : ";
         cin >> im.jenis;
-        if(im.jenis!="INT" && im.jenis !="Reguler"){
+        if (im.jenis != "INT" && im.jenis != "Reguler")
+        {
             cout << "Invalid\nSet to Reguler by default\n";
             im.jenis = "Reguler";
         }
         m = newMatkul(im);
         insert_last_matkul(M, m);
     }
-    else if (t == "3" && first(M)!=NULL)
+    else if (t == "3" && first(M) != NULL)
     {
         printMatkul(M);
         cout << "Input after (Matkul name) : ";
         cin >> t;
         prec = find_matkul(M, t);
-        if(m!=NULL){
+        if (m != NULL)
+        {
             im.total = 0;
             cout << "Nama Mata Kuliah   : ";
             cin >> im.nama_matkul;
@@ -470,12 +597,13 @@ void insertMatkul(listMatkul &M)
             cin >> im.max;
             cout << "Jenis Mahasiswa    : ";
             cin >> im.jenis;
-        if(im.jenis!="INT" && im.jenis !="Reguler"){
-            cout << "Invalid\nSet to Reguler by default\n";
-            im.jenis = "Reguler";
-        }
-        m = newMatkul(im);
-        insert_after_matkul(M,m,prec);
+            if (im.jenis != "INT" && im.jenis != "Reguler")
+            {
+                cout << "Invalid\nSet to Reguler by default\n";
+                im.jenis = "Reguler";
+            }
+            m = newMatkul(im);
+            insert_after_matkul(M, m, prec);
         }
     }
     else
