@@ -433,6 +433,9 @@ adrSiswa find_siswa(listSiswa S, string data)
                 cek = false;
             }
         }
+        if(cek){
+            p = NULL;
+        }
     }
     return p;
 }
@@ -455,6 +458,9 @@ adrMatkul find_matkul(listMatkul M, string data)
             {
                 cek = false;
             }
+        }
+        if(cek){
+            p = NULL;
         }
     }
     return p;
