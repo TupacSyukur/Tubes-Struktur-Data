@@ -49,7 +49,8 @@ int main()
         }
         else if (n == "8")
         { // Delete Siswa dalam Matkul
-            q = delete_relation(M);
+            //q = delete_relation(M);
+            q = delete_relation_(M);
         }
         else if (n == "9")
         { // Print Siswa
@@ -61,7 +62,7 @@ int main()
         }
         else if (n == "11")
         { // Print Siswa dalam Matkul
-            printRelation(M);
+            printRelation(M, NULL);
         }
         else if (n == "12")
         { // Cari Siswa
@@ -70,7 +71,7 @@ int main()
             s = find_siswa(S, is.nama_siswa);
             if(s!=NULL){
                 cout << "\nFound\n";
-                cout << info(s).nama_siswa << " | " << info(s).nim << " | " << " | " << info(s).kelas << " | " << info(s).jenis << endl;
+                cout << info(s).nama_siswa << " | " << info(s).nim << " | " << info(s).kelas << " | " << info(s).jenis << endl;
             }else{
                 cout << "\nNot Found\n";
             }

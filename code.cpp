@@ -184,7 +184,7 @@ adrRelation delete_first_relation(listMatkul &M, adrMatkul &m)
     adrRelation p = m->goRelation;
     m->goRelation = next(p);
     next(p) = NULL;
-
+    info(m).total--;
     return p;
 }
 
@@ -197,7 +197,7 @@ adrRelation delete_last_relation(listMatkul &M, adrMatkul &m)
     }
     adrRelation q = next(p);
     next(p) = NULL;
-
+    info(m).total--;
     return q;
 }
 
@@ -206,8 +206,43 @@ adrRelation delete_after_relation(listMatkul &M, adrMatkul &m, adrRelation prec)
     adrRelation p = next(prec);
     next(prec) = next(p);
     next(p) = NULL;
-
+    info(m).total--;
     return p;
+}
+
+adrRelation delete_relation_(listMatkul &M){
+    adrRelation r = NULL, prec = NULL;
+    adrMatkul m = NULL;
+    string data;
+    if(first(M)!=NULL){
+        printMatkul(M);
+        cout << "Choose Matkul Name: ";
+        cin >> data;
+        m = find_matkul(M, data);
+    }
+    if(m!=NULL){
+        printRelation(M, m);
+        cout << "Choose Siswa Name : ";
+        cin >> data;
+        r = find_Relasi(m, data);
+        if(r!=NULL){
+            if(r==m->goRelation){
+                r = delete_first_relation(M,m);
+            }else if(next(r) == NULL){
+                r = delete_last_relation(M,m);
+            }else{
+                prec = m->goRelation;
+                while(prec !=NULL && next(prec)!=r){
+                    prec = next(prec);
+                }
+                r = delete_after_relation(M,m,prec);
+            }
+        }
+        
+    }else{
+        cout << "\nFailed\n";
+    }
+    return r;
 }
 
 adrRelation delete_relation(listMatkul &M)
@@ -259,7 +294,6 @@ adrRelation delete_relation(listMatkul &M)
                 prec = next(prec);
             p = delete_after_relation(M, m, prec);
         }
-        m->info.total -= 1;
     }
 
     return p;
@@ -284,7 +318,7 @@ void printSiswa(listSiswa P)
     {
         cout << "Empty\n";
     }
-    cout << endl;
+
 }
 // Double Linked List (dengan last)
 void printMatkul(listMatkul P)
@@ -307,19 +341,22 @@ void printMatkul(listMatkul P)
     {
         cout << "Empty\n";
     }
-    cout << endl;
 }
 
 // Single Linked List (without last)
-void printRelation(listMatkul P)
+void printRelation(listMatkul P, adrMatkul p)
 {
     if (first(P) != NULL)
     {
-        printMatkul(P);
-        cout << "Choose Matkul Name : ";
-        string t;
-        cin >> t;
-        adrMatkul m = find_matkul(P, t);
+        adrMatkul m = NULL;
+        if(p==NULL){
+            printMatkul(P);
+            cout << "Choose Matkul Name : ";
+            string t;
+            cin >> t;
+            p = find_matkul(P, t);
+        }
+        m = p;
         if (m != NULL)
         {
             int n = 1;
@@ -350,7 +387,6 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
         cin >> t;
         adrMatkul m;
         m = find_matkul(M, t);
-        cout << (m==NULL);
         if (m != NULL && info(m).total != info(m).max)
         {
             adrSiswa s;
@@ -472,6 +508,22 @@ adrMatkul find_matkul(listMatkul M, string data)
         }
     }
     return p;
+}
+
+adrRelation find_Relasi(adrMatkul m, string t){
+    adrRelation r;
+    if(m!=NULL){
+        bool cek = true;
+        r = m->goRelation;
+        while(r!=NULL&&cek){
+            if(r->info->info.nama_siswa != t){
+                r = next(r);
+            }else{
+                cek = false;
+            }
+        }
+    }
+    return r;
 }
 
 void find_siswa_in_matkul(listSiswa S, listMatkul M){

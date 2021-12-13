@@ -85,16 +85,17 @@ adrRelation delete_first_relation(listMatkul &M, adrMatkul &m);
 adrRelation delete_last_relation(listMatkul &M, adrMatkul &m);
 adrRelation delete_after_relation(listMatkul &M, adrMatkul &m, adrRelation prec);
 adrRelation delete_relation(listMatkul &M, adrMatkul &m);
+adrRelation delete_relation_(listMatkul &M, adrMatkul &m);
 //
 void printSiswa(listSiswa P);
 void printMatkul(listMatkul P);
-void printParent(listMatkul P);
+void printRelation(listMatkul P, adrMatkul m);
 //
 string menu();
-
 adrSiswa find_siswa(listSiswa S, string data);
 adrMatkul find_matkul(listMatkul M, string data);
 void find_siswa_in_matkul(listSiswa S, listMatkul M);
+adrRelation find_Relasi(adrMatkul m, string t);
 
 // ETC
 void insertSiswa(listSiswa &S);
