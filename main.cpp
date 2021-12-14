@@ -11,6 +11,7 @@ int main()
     adrMatkul m;
     adrRelation p;
     adrRelation q;
+    adrMatkul deleted_m;
     info_siswa is;
     info_matkul im;
 
@@ -46,10 +47,11 @@ int main()
         }
         else if (n == "7")
         { // Delete Matkul
+            deleted_m = delete_matkul(M);
         }
         else if (n == "8")
         { // Delete Siswa dalam Matkul
-            //q = delete_relation(M);
+            // q = delete_relation(M);
             q = delete_relation_(M);
         }
         else if (n == "9")
@@ -69,10 +71,13 @@ int main()
             cout << "Search Siswa Name : ";
             cin >> is.nama_siswa;
             s = find_siswa(S, is.nama_siswa);
-            if(s!=NULL){
+            if (s != NULL)
+            {
                 cout << "\nFound\n";
                 cout << info(s).nama_siswa << " | " << info(s).nim << " | " << info(s).kelas << " | " << info(s).jenis << endl;
-            }else{
+            }
+            else
+            {
                 cout << "\nNot Found\n";
             }
         }
@@ -81,16 +86,19 @@ int main()
             cout << "Search Matkul Name : ";
             cin >> im.nama_matkul;
             m = find_matkul(M, im.nama_matkul);
-            if(m!=NULL){
+            if (m != NULL)
+            {
                 cout << "\nFound\n";
-                cout << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max <<endl;
-            }else{
+                cout << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max << endl;
+            }
+            else
+            {
                 cout << "\nNot Found\n";
             }
         }
         else if (n == "14")
         { // Cari Siswa dalam Matkul
-            find_siswa_in_matkul(S,M);
+            find_siswa_in_matkul(S, M);
         }
         else if (n != "0")
         { // Exit

@@ -210,36 +210,47 @@ adrRelation delete_after_relation(listMatkul &M, adrMatkul &m, adrRelation prec)
     return p;
 }
 
-adrRelation delete_relation_(listMatkul &M){
+adrRelation delete_relation_(listMatkul &M)
+{
     adrRelation r = NULL, prec = NULL;
     adrMatkul m = NULL;
     string data;
-    if(first(M)!=NULL){
+    if (first(M) != NULL)
+    {
         printMatkul(M);
         cout << "Choose Matkul Name: ";
         cin >> data;
         m = find_matkul(M, data);
     }
-    if(m!=NULL){
+    if (m != NULL)
+    {
         printRelation(M, m);
         cout << "Choose Siswa Name : ";
         cin >> data;
         r = find_Relasi(m, data);
-        if(r!=NULL){
-            if(r==m->goRelation){
-                r = delete_first_relation(M,m);
-            }else if(next(r) == NULL){
-                r = delete_last_relation(M,m);
-            }else{
+        if (r != NULL)
+        {
+            if (r == m->goRelation)
+            {
+                r = delete_first_relation(M, m);
+            }
+            else if (next(r) == NULL)
+            {
+                r = delete_last_relation(M, m);
+            }
+            else
+            {
                 prec = m->goRelation;
-                while(prec !=NULL && next(prec)!=r){
+                while (prec != NULL && next(prec) != r)
+                {
                     prec = next(prec);
                 }
-                r = delete_after_relation(M,m,prec);
+                r = delete_after_relation(M, m, prec);
             }
         }
-        
-    }else{
+    }
+    else
+    {
         cout << "\nFailed\n";
     }
     return r;
@@ -298,6 +309,107 @@ adrRelation delete_relation(listMatkul &M)
 
     return p;
 }
+
+// Delete Matkul
+adrMatkul delete_first_matkul(listMatkul &M)
+{
+    adrMatkul p = first(M);
+
+    prev(next(p)) = last(M);
+    next(last(M)) = next(p);
+    first(M) = next(p);
+    next(p) = NULL;
+    prev(p) = NULL;
+
+    return p;
+}
+
+adrMatkul delete_last_matkul(listMatkul &M)
+{
+    adrMatkul p = last(M);
+
+    next(prev(p)) = first(M);
+    prev(first(M)) = prev(p);
+    last(M) = prev(p);
+    prev(p) = NULL;
+    next(p) = NULL;
+
+    return p;
+}
+
+adrMatkul delete_after_matkul(listMatkul &M, adrMatkul prec)
+{
+    adrMatkul p = next(prec);
+
+    next(prec) = next(p);
+    prev(next(p)) = prec;
+    next(p) = NULL;
+    prev(p) = NULL;
+
+    return p;
+}
+
+adrMatkul delete_matkul(listMatkul &M)
+{
+    adrMatkul p = NULL;
+    if (first(M) != NULL)
+    {
+        printMatkul(M);
+        string matkul;
+        cout << "Pilih mata kuliah : ";
+        cin >> matkul;
+        p = find_matkul(M, matkul);
+
+        if (p != NULL)
+        {
+            adrMatkul q;
+            if (p == first(M))
+            {
+                q = delete_first_matkul(M);
+            }
+            else if (p == last(M))
+            {
+                q = delete_last_matkul(M);
+            }
+            else
+            {
+                adrMatkul prec = prev(p);
+                q = delete_after_matkul(M, prec);
+            }
+            adrRelation r = q->goRelation;
+            adrRelation s;
+            while (r != NULL)
+            {
+                if (r == q->goRelation)
+                {
+                    s = delete_first_relation(M, q);
+                }
+                else if (next(r) == NULL)
+                {
+                    s = delete_last_relation(M, q);
+                }
+                else
+                {
+                    adrRelation prec = q->goRelation;
+                    while (prec != NULL && next(prec) != r)
+                    {
+                        prec = next(prec);
+                    }
+                    s = delete_after_relation(M, q, prec);
+                }
+
+                r = next(r);
+            }
+        }
+        else
+        {
+            cout << "Matkul tidak ditemukan." << endl;
+        }
+    }
+
+    return p;
+}
+
 // Double Linked List (dengan last)
 void printSiswa(listSiswa P)
 {
@@ -318,7 +430,6 @@ void printSiswa(listSiswa P)
     {
         cout << "Empty\n";
     }
-
 }
 // Double Linked List (dengan last)
 void printMatkul(listMatkul P)
@@ -349,7 +460,8 @@ void printRelation(listMatkul P, adrMatkul p)
     if (first(P) != NULL)
     {
         adrMatkul m = NULL;
-        if(p==NULL){
+        if (p == NULL)
+        {
             printMatkul(P);
             cout << "Choose Matkul Name : ";
             string t;
@@ -409,7 +521,7 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
                     info(m).total++;
                 }
             }
-            else if(t == "2")
+            else if (t == "2")
             {
                 info_siswa is;
                 cout << "Nama               : ";
@@ -460,19 +572,27 @@ adrSiswa find_siswa(listSiswa S, string data)
     {
         p = first(S);
         bool cek = true;
-        if (info(p).nama_siswa != data){
+        if (info(p).nama_siswa != data)
+        {
             p = next(p);
-        }else{
+        }
+        else
+        {
             cek = false;
         }
-        while (p != first(S) && cek){
-            if (info(p).nama_siswa != data){
+        while (p != first(S) && cek)
+        {
+            if (info(p).nama_siswa != data)
+            {
                 p = next(p);
-            }else{
+            }
+            else
+            {
                 cek = false;
             }
         }
-        if(cek){
+        if (cek)
+        {
             p = NULL;
         }
     }
@@ -487,9 +607,12 @@ adrMatkul find_matkul(listMatkul M, string data)
     {
         p = first(M);
         bool cek = true;
-        if (info(p).nama_matkul != data){
+        if (info(p).nama_matkul != data)
+        {
             p = next(p);
-        }else{
+        }
+        else
+        {
             cek = false;
         }
         while (p != first(M) && cek)
@@ -503,22 +626,29 @@ adrMatkul find_matkul(listMatkul M, string data)
                 cek = false;
             }
         }
-        if(cek){
+        if (cek)
+        {
             p = NULL;
         }
     }
     return p;
 }
 
-adrRelation find_Relasi(adrMatkul m, string t){
+adrRelation find_Relasi(adrMatkul m, string t)
+{
     adrRelation r;
-    if(m!=NULL){
+    if (m != NULL)
+    {
         bool cek = true;
         r = m->goRelation;
-        while(r!=NULL&&cek){
-            if(r->info->info.nama_siswa != t){
+        while (r != NULL && cek)
+        {
+            if (r->info->info.nama_siswa != t)
+            {
                 r = next(r);
-            }else{
+            }
+            else
+            {
                 cek = false;
             }
         }
@@ -526,45 +656,55 @@ adrRelation find_Relasi(adrMatkul m, string t){
     return r;
 }
 
-void find_siswa_in_matkul(listSiswa S, listMatkul M){
+void find_siswa_in_matkul(listSiswa S, listMatkul M)
+{
     info_siswa is;
     adrSiswa s;
     adrMatkul m;
     adrRelation r;
     int n = 0;
-    if(first(S)!=NULL && first(M)!=NULL){
+    if (first(S) != NULL && first(M) != NULL)
+    {
         cout << "Search Siswa Name : ";
         cin >> is.nama_siswa;
         s = find_siswa(S, is.nama_siswa);
-        if(s!=NULL){
+        if (s != NULL)
+        {
             m = first(M);
             r = m->goRelation;
-            while(r!=NULL){
-                if(r->info->info.nama_siswa == s->info.nama_siswa){
-                cout << info(m).nama_matkul << " | ";
-                n = 1;
+            while (r != NULL)
+            {
+                if (r->info->info.nama_siswa == s->info.nama_siswa)
+                {
+                    cout << info(m).nama_matkul << " | ";
+                    n = 1;
                 }
                 r = next(r);
             }
             m = next(m);
-            while(m!=first(M)){
+            while (m != first(M))
+            {
                 r = m->goRelation;
-                while(r!=NULL){
-                    if(r->info->info.nama_siswa == s->info.nama_siswa){
-                    cout << info(m).nama_matkul << " | ";
+                while (r != NULL)
+                {
+                    if (r->info->info.nama_siswa == s->info.nama_siswa)
+                    {
+                        cout << info(m).nama_matkul << " | ";
                     }
                     r = next(r);
                 }
                 m = next(m);
             }
         }
-        if(n==0){
+        if (n == 0)
+        {
             cout << "\nNot Found\n";
         }
-    }else{
+    }
+    else
+    {
         cout << "\nEmpty\n";
     }
-    
 }
 
 void insertSiswa(listSiswa &P)

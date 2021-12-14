@@ -86,6 +86,10 @@ adrRelation delete_last_relation(listMatkul &M, adrMatkul &m);
 adrRelation delete_after_relation(listMatkul &M, adrMatkul &m, adrRelation prec);
 adrRelation delete_relation(listMatkul &M, adrMatkul &m);
 adrRelation delete_relation_(listMatkul &M, adrMatkul &m);
+adrMatkul delete_first_matkul(listMatkul &M);
+adrMatkul delete_last_matkul(listMatkul &M);
+adrMatkul delete_after_matkul(listMatkul &M, adrMatkul prec);
+adrMatkul delete_matkul(listMatkul &M);
 //
 void printSiswa(listSiswa P);
 void printMatkul(listMatkul P);
