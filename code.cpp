@@ -315,11 +315,21 @@ adrMatkul delete_first_matkul(listMatkul &M)
 {
     adrMatkul p = first(M);
 
-    prev(next(p)) = last(M);
-    next(last(M)) = next(p);
-    first(M) = next(p);
-    next(p) = NULL;
-    prev(p) = NULL;
+    if (next(p) == first(M))
+    {
+        first(M) == NULL;
+        last(M) == NULL;
+        next(p) = NULL;
+        prev(p) = NULL;
+    }
+    else
+    {
+        prev(next(p)) = last(M);
+        next(last(M)) = next(p);
+        first(M) = next(p);
+        next(p) = NULL;
+        prev(p) = NULL;
+    }
 
     return p;
 }
@@ -352,59 +362,167 @@ adrMatkul delete_after_matkul(listMatkul &M, adrMatkul prec)
 adrMatkul delete_matkul(listMatkul &M)
 {
     adrMatkul p = NULL;
+    adrMatkul prec = NULL;
+    string matkul;
     if (first(M) != NULL)
     {
         printMatkul(M);
-        string matkul;
         cout << "Pilih mata kuliah : ";
         cin >> matkul;
         p = find_matkul(M, matkul);
 
         if (p != NULL)
         {
-            adrMatkul q;
             if (p == first(M))
             {
-                q = delete_first_matkul(M);
+                p = delete_first_matkul(M);
             }
             else if (p == last(M))
             {
-                q = delete_last_matkul(M);
+                p = delete_last_matkul(M);
             }
             else
             {
-                adrMatkul prec = prev(p);
-                q = delete_after_matkul(M, prec);
-            }
-            adrRelation r = q->goRelation;
-            adrRelation s;
-            while (r != NULL)
-            {
-                if (r == q->goRelation)
-                {
-                    s = delete_first_relation(M, q);
-                }
-                else if (next(r) == NULL)
-                {
-                    s = delete_last_relation(M, q);
-                }
-                else
-                {
-                    adrRelation prec = q->goRelation;
-                    while (prec != NULL && next(prec) != r)
-                    {
-                        prec = next(prec);
-                    }
-                    s = delete_after_relation(M, q, prec);
-                }
-
-                r = next(r);
+                prec = prev(p);
+                p = delete_after_matkul(M, prec);
             }
         }
         else
         {
             cout << "Matkul tidak ditemukan." << endl;
         }
+    }
+    else
+    {
+        cout << "\nFailed\n";
+    }
+
+    return p;
+}
+
+adrSiswa delete_first_siswa(listSiswa &S)
+{
+    adrSiswa p = first(S);
+
+    prev(next(p)) = last(S);
+    next(last(S)) = next(p);
+    first(S) = next(p);
+    next(p) = NULL;
+    prev(p) = NULL;
+
+    return p;
+}
+
+adrSiswa delete_last_siswa(listSiswa &S)
+{
+    adrSiswa p = last(S);
+
+    next(prev(p)) = first(S);
+    prev(first(S)) = prev(p);
+    last(S) = prev(p);
+    prev(p) = NULL;
+    next(p) = NULL;
+
+    return p;
+}
+
+adrSiswa delete_after_siswa(listSiswa &S, adrSiswa prec)
+{
+    adrSiswa p = next(prec);
+
+    next(prec) = next(p);
+    prev(next(p)) = prec;
+    next(p) = NULL;
+    prev(p) = NULL;
+
+    return p;
+}
+
+adrSiswa delete_siswa(listSiswa &S, listMatkul &M)
+{
+    adrSiswa p = NULL, prec1 = NULL;
+    adrRelation prec = NULL, r = NULL;
+    adrMatkul m = NULL;
+    string siswa;
+    if (first(S) != NULL)
+    {
+        printSiswa(S);
+
+        cout << "Nama siswa yang akan dihapus : ";
+        cin >> siswa;
+        p = find_siswa(S, siswa);
+
+        if (p == first(S))
+        {
+            p = delete_first_siswa(S);
+        }
+        else if (p == last(S))
+        {
+            p = delete_last_siswa(S);
+        }
+        else
+        {
+            prec1 = prev(p);
+            p = delete_after_siswa(S, prec1);
+        }
+        cout << p->info.nama_siswa << endl;
+
+        if (first(M) != NULL)
+        {
+            r = find_Relasi(m, p->info.nama_siswa);
+            if (r->info == p)
+            {
+                if (r == m->goRelation)
+                {
+                    r = delete_first_relation(M, m);
+                }
+                else if (next(r) == NULL)
+                {
+                    r = delete_last_relation(M, m);
+                }
+                else
+                {
+                    prec = m->goRelation;
+                    while (prec != NULL && next(prec) != r)
+                    {
+                        prec = next(prec);
+                    }
+                    r = delete_after_relation(M, m, prec);
+                }
+                // m->info.total -= 1;
+            }
+            m = next(m);
+            while (m != first(M))
+            {
+                r = find_Relasi(m, p->info.nama_siswa);
+                if (r->info == p)
+                {
+                    if (r == m->goRelation)
+                    {
+                        r = delete_first_relation(M, m);
+                    }
+                    else if (next(r) == NULL)
+                    {
+                        r = delete_last_relation(M, m);
+                    }
+                    else
+                    {
+                        prec = m->goRelation;
+                        while (prec != NULL && next(prec) != r)
+                        {
+                            prec = next(prec);
+                        }
+                        r = delete_after_relation(M, m, prec);
+                    }
+                    // m->info.total -= 1;
+                }
+                m = next(m);
+            }
+        }
+    }
+    else
+    {
+        cout << "Tidak ada data mahasiswa." << endl;
     }
 
     return p;

@@ -90,6 +90,10 @@ adrMatkul delete_first_matkul(listMatkul &M);
 adrMatkul delete_last_matkul(listMatkul &M);
 adrMatkul delete_after_matkul(listMatkul &M, adrMatkul prec);
 adrMatkul delete_matkul(listMatkul &M);
+adrSiswa delete_first_siswa(listSiswa &S);
+adrSiswa delete_last_siswa(listSiswa &S);
+adrSiswa delete_after_siswa(listSiswa &S, adrSiswa prec);
+adrSiswa delete_siswa(listSiswa &S, listMatkul &M);
 //
 void printSiswa(listSiswa P);
 void printMatkul(listMatkul P);

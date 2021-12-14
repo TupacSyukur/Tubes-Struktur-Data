@@ -12,6 +12,7 @@ int main()
     adrRelation p;
     adrRelation q;
     adrMatkul deleted_m;
+    adrSiswa deleted_s;
     info_siswa is;
     info_matkul im;
 
@@ -44,6 +45,7 @@ int main()
         }
         else if (n == "6")
         { // Delete Siswa
+            deleted_s = delete_siswa(S, M);
         }
         else if (n == "7")
         { // Delete Matkul
