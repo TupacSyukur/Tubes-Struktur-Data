@@ -361,8 +361,8 @@ adrMatkul delete_after_matkul(listMatkul &M, adrMatkul prec)
 
 adrMatkul delete_matkul(listMatkul &M)
 {
-    adrMatkul p = NULL;
-    adrMatkul prec = NULL;
+    adrMatkul p;
+    adrMatkul prec;
     string matkul;
     if (first(M) != NULL)
     {
@@ -465,12 +465,13 @@ adrSiswa delete_siswa(listSiswa &S, listMatkul &M)
             prec1 = prev(p);
             p = delete_after_siswa(S, prec1);
         }
-        cout << p->info.nama_siswa << endl;
+        adrSiswa q = p;
 
         if (first(M) != NULL)
         {
-            r = find_Relasi(m, p->info.nama_siswa);
-            if (r->info == p)
+            m = first(M);
+            r = find_Relasi(m, info(q).nama_siswa);
+            if (r->info == q)
             {
                 if (r == m->goRelation)
                 {
@@ -494,8 +495,8 @@ adrSiswa delete_siswa(listSiswa &S, listMatkul &M)
             m = next(m);
             while (m != first(M))
             {
-                r = find_Relasi(m, p->info.nama_siswa);
-                if (r->info == p)
+                r = find_Relasi(m, q->info.nama_siswa);
+                if (r->info == q)
                 {
                     if (r == m->goRelation)
                     {
