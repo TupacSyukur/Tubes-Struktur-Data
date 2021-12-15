@@ -102,6 +102,14 @@ int main()
         { // Cari Siswa dalam Matkul
             find_siswa_in_matkul(S, M);
         }
+        else if (n == "15")
+        { // Print matkul serta info siswanya
+            printInfoKelas(M);
+        }
+        else if (n == "16")
+        {
+            printAvailableMatkul(M);
+        }
         else if (n != "0")
         { // Exit
             cout << "\nWrong Input\n";

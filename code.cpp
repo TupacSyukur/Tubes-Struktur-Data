@@ -626,6 +626,92 @@ void printRelation(listMatkul P, adrMatkul p)
     cout << endl;
 }
 
+void printInfoKelas(listMatkul M)
+{
+    adrMatkul p = first(M);
+    int n = 1, n1 = 1;
+    if (p != NULL)
+    {
+        cout << "[" << n << "] " << info(p).nama_matkul << endl;
+        adrRelation r = p->goRelation;
+        if (r != NULL)
+        {
+            n1 = 1;
+            while (r != NULL)
+            {
+                cout << n1 << ". " << r->info->info.nama_siswa << " | " << info(r)->info.nim << " | " << info(r)->info.kelas << " | " << info(r)->info.jenis << endl;
+
+                r = next(r);
+                n1++;
+            }
+        }
+        else
+        {
+            cout << "Tidak ada data mahasiswa." << endl;
+        }
+        p = next(p);
+        cout << endl;
+        while (p != first(M))
+        {
+            n++;
+            cout << "[" << n << "] " << info(p).nama_matkul << endl;
+            r = p->goRelation;
+            if (r != NULL)
+            {
+                n1 = 1;
+                while (r != NULL)
+                {
+                    cout << n1 << ". " << r->info->info.nama_siswa << " | " << info(r)->info.nim << " | " << info(r)->info.kelas << " | " << info(r)->info.jenis << endl;
+
+                    r = next(r);
+                    n1++;
+                }
+            }
+            else
+            {
+                cout << "Tidak ada data mahasiswa." << endl;
+            }
+            p = next(p);
+            cout << endl;
+        }
+    }
+    else
+    {
+        cout << "Tidak ada data matkul." << endl;
+    }
+}
+
+void printAvailableMatkul(listMatkul M)
+{
+    adrMatkul p = first(M);
+    int n = 1;
+    cout << "Berikut matkul yang masih tersedia : " << endl;
+    if (p != NULL)
+    {
+        if (p->info.total < p->info.max)
+        {
+            cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).jenis << " | " << info(p).total << "/" << info(p).max;
+            n++;
+            cout << endl;
+        }
+        p = next(p);
+        while (p != first(M))
+        {
+            if (p->info.total < p->info.max)
+            {
+                cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).jenis << " | " << info(p).total << "/" << info(p).max;
+                n++;
+                cout << endl;
+            }
+            p = next(p);
+        }
+    }
+    else
+    {
+        cout << "Tidak ada data Matkul" << endl;
+    }
+}
+
 void addSiswa2Mk(listMatkul &M, listSiswa &S)
 {
     if (first(M) != NULL)
@@ -696,7 +782,7 @@ string menu()
     cout << "1. Insert Siswa\n2. Insert Matkul\n3. Insert Siswa ke Matkul\n";
     cout << "4. Edit Siswa\n5. Edit Matkul\n6. Delete Siswa\n";
     cout << "7. Delete Matkul\n8. Delete Siswa dalam Matkul\n9. Print Siswa\n";
-    cout << "10. Print Matkul\n11. Print Siswa dalam Matkul\n12. Cari Siswa\n13. Cari Matkul\n14. Cari Siswa dalam Matkul\n0. Exit\nChoose : ";
+    cout << "10. Print Matkul\n11. Print Siswa dalam Matkul\n12. Cari Siswa\n13. Cari Matkul\n14. Cari Siswa dalam Matkul\n15. Print matkul serta info siswanya\n16. Print matkul yang masih tersedia\n0. Exit\nChoose : ";
     cin >> n;
     return n;
 }

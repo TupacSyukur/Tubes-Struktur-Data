@@ -98,6 +98,8 @@ adrSiswa delete_siswa(listSiswa &S, listMatkul &M);
 void printSiswa(listSiswa P);
 void printMatkul(listMatkul P);
 void printRelation(listMatkul P, adrMatkul m);
+void printInfoKelas(listMatkul M);
+void printAvailableMatkul(listMatkul M);
 //
 string menu();
 adrSiswa find_siswa(listSiswa S, string data);
