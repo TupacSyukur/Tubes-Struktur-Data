@@ -317,10 +317,10 @@ adrMatkul delete_first_matkul(listMatkul &M)
 
     if (next(p) == first(M))
     {
-        first(M) == NULL;
-        last(M) == NULL;
-        next(p) = NULL;
-        prev(p) = NULL;
+        first(M) = NULL;
+        last(M) = NULL;
+        //next(p) = NULL;
+        //prev(p) = NULL;
     }
     else
     {
@@ -404,11 +404,21 @@ adrSiswa delete_first_siswa(listSiswa &S)
 {
     adrSiswa p = first(S);
 
-    prev(next(p)) = last(S);
-    next(last(S)) = next(p);
-    first(S) = next(p);
-    next(p) = NULL;
-    prev(p) = NULL;
+    if (next(p) == first(S))
+    {
+        first(S) = NULL;
+        last(S) = NULL;
+        //next(p) = NULL;
+        //prev(p) = NULL;
+    }
+    else
+    {
+        prev(next(p)) = last(S);
+        next(last(S)) = next(p);
+        first(S) = next(p);
+        next(p) = NULL;
+        prev(p) = NULL;
+    }
 
     return p;
 }
