@@ -319,8 +319,8 @@ adrMatkul delete_first_matkul(listMatkul &M)
     {
         first(M) = NULL;
         last(M) = NULL;
-        //next(p) = NULL;
-        //prev(p) = NULL;
+        // next(p) = NULL;
+        // prev(p) = NULL;
     }
     else
     {
@@ -408,8 +408,8 @@ adrSiswa delete_first_siswa(listSiswa &S)
     {
         first(S) = NULL;
         last(S) = NULL;
-        //next(p) = NULL;
-        //prev(p) = NULL;
+        // next(p) = NULL;
+        // prev(p) = NULL;
     }
     else
     {
@@ -462,51 +462,15 @@ adrSiswa delete_siswa(listSiswa &S, listMatkul &M)
         cin >> siswa;
         p = find_siswa(S, siswa);
 
-        if (p == first(S))
-        {
-            p = delete_first_siswa(S);
-        }
-        else if (p == last(S))
-        {
-            p = delete_last_siswa(S);
-        }
-        else
-        {
-            prec1 = prev(p);
-            p = delete_after_siswa(S, prec1);
-        }
         adrSiswa q = p;
 
-        if (first(M) != NULL)
+        if (q != NULL)
         {
             m = first(M);
-            r = find_Relasi(m, info(q).nama_siswa);
-            if (r->info == q)
+            if (m != NULL)
             {
-                if (r == m->goRelation)
-                {
-                    r = delete_first_relation(M, m);
-                }
-                else if (next(r) == NULL)
-                {
-                    r = delete_last_relation(M, m);
-                }
-                else
-                {
-                    prec = m->goRelation;
-                    while (prec != NULL && next(prec) != r)
-                    {
-                        prec = next(prec);
-                    }
-                    r = delete_after_relation(M, m, prec);
-                }
-                // m->info.total -= 1;
-            }
-            m = next(m);
-            while (m != first(M))
-            {
-                r = find_Relasi(m, q->info.nama_siswa);
-                if (r->info == q)
+                r = find_Relasi(m, info(q).nama_siswa);
+                if (r != NULL)
                 {
                     if (r == m->goRelation)
                     {
@@ -528,7 +492,51 @@ adrSiswa delete_siswa(listSiswa &S, listMatkul &M)
                     // m->info.total -= 1;
                 }
                 m = next(m);
+                while (m != first(M))
+                {
+                    r = find_Relasi(m, q->info.nama_siswa);
+                    if (r != NULL)
+                    {
+                        if (r == m->goRelation)
+                        {
+                            r = delete_first_relation(M, m);
+                        }
+                        else if (next(r) == NULL)
+                        {
+                            r = delete_last_relation(M, m);
+                        }
+                        else
+                        {
+                            prec = m->goRelation;
+                            while (prec != NULL && next(prec) != r)
+                            {
+                                prec = next(prec);
+                            }
+                            r = delete_after_relation(M, m, prec);
+                        }
+                        // m->info.total -= 1;
+                    }
+                    m = next(m);
+                }
             }
+
+            if (p == first(S))
+            {
+                p = delete_first_siswa(S);
+            }
+            else if (p == last(S))
+            {
+                p = delete_last_siswa(S);
+            }
+            else
+            {
+                prec1 = prev(p);
+                p = delete_after_siswa(S, prec1);
+            }
+        }
+        else
+        {
+            cout << "Mahasiswa tidak ditemukan." << endl;
         }
     }
     else
