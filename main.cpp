@@ -38,37 +38,31 @@ int main()
             addSiswa2Mk(M, S);
         }
         else if (n == "4")
-        { // Edit Siswa
-        }
-        else if (n == "5")
-        { // Edit Matkul
-        }
-        else if (n == "6")
         { // Delete Siswa
             deleted_s = delete_siswa(S, M);
         }
-        else if (n == "7")
+        else if (n == "5")
         { // Delete Matkul
             deleted_m = delete_matkul(M);
         }
-        else if (n == "8")
+        else if (n == "6")
         { // Delete Siswa dalam Matkul
             // q = delete_relation(M);
             q = delete_relation_(M);
         }
-        else if (n == "9")
+        else if (n == "7")
         { // Print Siswa
             printSiswa(S);
         }
-        else if (n == "10")
+        else if (n == "8")
         { // Print Matkul
             printMatkul(M);
         }
-        else if (n == "11")
+        else if (n == "9")
         { // Print Siswa dalam Matkul
             printRelation(M, NULL);
         }
-        else if (n == "12")
+        else if (n == "10")
         { // Cari Siswa
             cout << "Search Siswa Name : ";
             cin >> is.nama_siswa;
@@ -76,14 +70,14 @@ int main()
             if (s != NULL)
             {
                 cout << "\nFound\n";
-                cout << info(s).nama_siswa << " | " << info(s).nim << " | " << info(s).kelas << " | " << info(s).jenis << endl;
+                cout << info(s).nama_siswa << " | " << info(s).nim << " | " << info(s).kelas << " | " << info(s).jenis << "\n\n";
             }
             else
             {
                 cout << "\nNot Found\n";
             }
         }
-        else if (n == "13")
+        else if (n == "11")
         { // Cari Matkul
             cout << "Search Matkul Name : ";
             cin >> im.nama_matkul;
@@ -91,22 +85,22 @@ int main()
             if (m != NULL)
             {
                 cout << "\nFound\n";
-                cout << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max << endl;
+                cout << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max << "\n\n";
             }
             else
             {
                 cout << "\nNot Found\n";
             }
         }
-        else if (n == "14")
+        else if (n == "12")
         { // Cari Siswa dalam Matkul
             find_siswa_in_matkul(S, M);
         }
-        else if (n == "15")
+        else if (n == "13")
         { // Print matkul serta info siswanya
             printInfoKelas(M);
         }
-        else if (n == "16")
+        else if (n == "14")
         {
             printAvailableMatkul(M);
         }

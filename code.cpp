@@ -654,7 +654,7 @@ void printInfoKelas(listMatkul M)
         while (p != first(M))
         {
             n++;
-            cout << "[" << n << "] " << info(p).nama_matkul << endl;
+            cout << "[" << n << "] " << info(p).nama_matkul << " | " << info(p).kelas_matkul << " | " << info(p).jenis << " | " << info(p).total << "/" << info(p).max << endl;
             r = p->goRelation;
             if (r != NULL)
             {
@@ -780,9 +780,10 @@ string menu()
 {
     string n = "0";
     cout << "1. Insert Siswa\n2. Insert Matkul\n3. Insert Siswa ke Matkul\n";
-    cout << "4. Edit Siswa\n5. Edit Matkul\n6. Delete Siswa\n";
-    cout << "7. Delete Matkul\n8. Delete Siswa dalam Matkul\n9. Print Siswa\n";
-    cout << "10. Print Matkul\n11. Print Siswa dalam Matkul\n12. Cari Siswa\n13. Cari Matkul\n14. Cari Siswa dalam Matkul\n15. Print matkul serta info siswanya\n16. Print matkul yang masih tersedia\n0. Exit\nChoose : ";
+    //cout << "4. Edit Siswa\n5. Edit Matkul\n6. Delete Siswa\n";
+    cout << "4. Delete Siswa\n5. Delete Matkul\n6. Delete Siswa dalam Matkul\n";
+    cout << "7. Print Siswa\n8. Print Matkul\n9. Print Siswa dalam Matkul\n";
+    cout << "10. Cari Siswa\n11. Cari Matkul\n12. Cari Siswa dalam Matkul\n13. Print matkul serta info siswanya\n14. Print matkul yang masih tersedia\n0. Exit\nChoose : ";
     cin >> n;
     return n;
 }
@@ -900,7 +901,7 @@ void find_siswa_in_matkul(listSiswa S, listMatkul M)
                 if (r->info->info.nama_siswa == s->info.nama_siswa)
                 {
                     cout << info(m).nama_matkul << " | ";
-                    n = 1;
+                    n++;
                 }
                 r = next(r);
             }
@@ -913,6 +914,7 @@ void find_siswa_in_matkul(listSiswa S, listMatkul M)
                     if (r->info->info.nama_siswa == s->info.nama_siswa)
                     {
                         cout << info(m).nama_matkul << " | ";
+                        n++;
                     }
                     r = next(r);
                 }
@@ -979,7 +981,7 @@ void insertSiswa(listSiswa &P)
         cout << "Input after (Student name): ";
         cin >> t;
         prec = find_siswa(P, t);
-        if (s != NULL)
+        if (prec != NULL)
         {
             cout << "Nama               : ";
             cin >> is.nama_siswa;
@@ -1056,7 +1058,7 @@ void insertMatkul(listMatkul &M)
         cout << "Input after (Matkul name) : ";
         cin >> t;
         prec = find_matkul(M, t);
-        if (m != NULL)
+        if (prec != NULL)
         {
             im.total = 0;
             cout << "Nama Mata Kuliah   : ";
