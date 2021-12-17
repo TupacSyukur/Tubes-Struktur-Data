@@ -191,7 +191,7 @@ adrRelation delete_first_relation(listMatkul &M, adrMatkul &m)
 adrRelation delete_last_relation(listMatkul &M, adrMatkul &m)
 {
     adrRelation p = m->goRelation;
-    while (next(p) != NULL)
+    while (next(next(p)) != NULL)
     {
         p = next(p);
     }
@@ -738,10 +738,17 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
 
                 if (s != NULL)
                 {
-                    p = newRelation(s);
+                    if (s->info.jenis == m->info.jenis)
+                    {
+                        p = newRelation(s);
 
-                    insert_relation(M, m, p);
-                    info(m).total++;
+                        insert_relation(M, m, p);
+                        info(m).total++;
+                    }
+                    else
+                    {
+                        cout << "Jenis mahasiswa tidak sesuai." << endl;
+                    }
                 }
             }
             else if (t == "2")
@@ -755,17 +762,24 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
                 cin >> is.kelas;
                 cout << "Jenis Mahasiswa    : ";
                 cin >> is.jenis;
-                if (is.jenis != "INT" && is.jenis != "Reguler")
+                if (is.jenis != "INT" && is.jenis != "REGULER")
                 {
-                    cout << "Invalid\nSet to Reguler by default\n";
-                    is.jenis = "Reguler";
+                    cout << "Invalid\nSet to REGULER by default\n";
+                    is.jenis = "REGULER";
                 }
                 s = newSiswa(is);
                 insert_first_siswa(S, s);
-                p = newRelation(s);
+                if (s->info.jenis == m->info.jenis)
+                {
+                    p = newRelation(s);
 
-                insert_relation(M, m, p);
-                info(m).total++;
+                    insert_relation(M, m, p);
+                    info(m).total++;
+                }
+                else
+                {
+                    cout << "Jenis mahasiswa tidak sesuai." << endl;
+                }
             }
         }
         else
@@ -780,7 +794,7 @@ string menu()
 {
     string n = "0";
     cout << "1. Insert Siswa\n2. Insert Matkul\n3. Insert Siswa ke Matkul\n";
-    //cout << "4. Edit Siswa\n5. Edit Matkul\n6. Delete Siswa\n";
+    // cout << "4. Edit Siswa\n5. Edit Matkul\n6. Delete Siswa\n";
     cout << "4. Delete Siswa\n5. Delete Matkul\n6. Delete Siswa dalam Matkul\n";
     cout << "7. Print Siswa\n8. Print Matkul\n9. Print Siswa dalam Matkul\n";
     cout << "10. Cari Siswa\n11. Cari Matkul\n12. Cari Siswa dalam Matkul\n13. Print matkul serta info siswanya\n14. Print matkul yang masih tersedia\n0. Exit\nChoose : ";
@@ -949,10 +963,10 @@ void insertSiswa(listSiswa &P)
         cin >> is.kelas;
         cout << "Jenis Mahasiswa    : ";
         cin >> is.jenis;
-        if (is.jenis != "INT" && is.jenis != "Reguler")
+        if (is.jenis != "INT" && is.jenis != "REGULER")
         {
-            cout << "Invalid\nSet to Reguler by default\n";
-            is.jenis = "Reguler";
+            cout << "Invalid\nSet to REGULER by default\n";
+            is.jenis = "REGULER";
         }
         s = newSiswa(is);
         insert_first_siswa(P, s);
@@ -967,10 +981,10 @@ void insertSiswa(listSiswa &P)
         cin >> is.kelas;
         cout << "Jenis Mahasiswa    : ";
         cin >> is.jenis;
-        if (is.jenis != "INT" && is.jenis != "Reguler")
+        if (is.jenis != "INT" && is.jenis != "REGULER")
         {
-            cout << "Invalid\nSet to Reguler by default\n";
-            is.jenis = "Reguler";
+            cout << "Invalid\nSet to REGULER by default\n";
+            is.jenis = "REGULER";
         }
         s = newSiswa(is);
         insert_last_siswa(P, s);
@@ -991,10 +1005,10 @@ void insertSiswa(listSiswa &P)
             cin >> is.kelas;
             cout << "Jenis Mahasiswa    : ";
             cin >> is.jenis;
-            if (is.jenis != "INT" && is.jenis != "Reguler")
+            if (is.jenis != "INT" && is.jenis != "REGULER")
             {
-                cout << "Invalid\nSet to Reguler by default\n";
-                is.jenis = "Reguler";
+                cout << "Invalid\nSet to REGULER by default\n";
+                is.jenis = "REGULER";
             }
             s = newSiswa(is);
             insert_after_siswa(P, s, prec);
@@ -1025,10 +1039,10 @@ void insertMatkul(listMatkul &M)
         cin >> im.max;
         cout << "Jenis Mahasiswa    : ";
         cin >> im.jenis;
-        if (im.jenis != "INT" && im.jenis != "Reguler")
+        if (im.jenis != "INT" && im.jenis != "REGULER")
         {
-            cout << "Invalid\nSet to Reguler by default\n";
-            im.jenis = "Reguler";
+            cout << "Invalid\nSet to REGULER by default\n";
+            im.jenis = "REGULER";
         }
         m = newMatkul(im);
         insert_first_matkul(M, m);
@@ -1044,10 +1058,10 @@ void insertMatkul(listMatkul &M)
         cin >> im.max;
         cout << "Jenis Mahasiswa    : ";
         cin >> im.jenis;
-        if (im.jenis != "INT" && im.jenis != "Reguler")
+        if (im.jenis != "INT" && im.jenis != "REGULER")
         {
-            cout << "Invalid\nSet to Reguler by default\n";
-            im.jenis = "Reguler";
+            cout << "Invalid\nSet to REGULER by default\n";
+            im.jenis = "REGULER";
         }
         m = newMatkul(im);
         insert_last_matkul(M, m);
@@ -1069,10 +1083,10 @@ void insertMatkul(listMatkul &M)
             cin >> im.max;
             cout << "Jenis Mahasiswa    : ";
             cin >> im.jenis;
-            if (im.jenis != "INT" && im.jenis != "Reguler")
+            if (im.jenis != "INT" && im.jenis != "REGULER")
             {
-                cout << "Invalid\nSet to Reguler by default\n";
-                im.jenis = "Reguler";
+                cout << "Invalid\nSet to REGULER by default\n";
+                im.jenis = "REGULER";
             }
             m = newMatkul(im);
             insert_after_matkul(M, m, prec);
