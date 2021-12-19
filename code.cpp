@@ -1,6 +1,7 @@
 #include "init.h"
-
+#include <fstream>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 //
@@ -632,7 +633,7 @@ void printInfoKelas(listMatkul M)
     int n = 1, n1 = 1;
     if (p != NULL)
     {
-        cout << "[" << n << "] " << info(p).nama_matkul << endl;
+        cout << "[" << n << "] " << info(p).nama_matkul  <<" | " << info(p).kelas_matkul << " | " << info(p).jenis << " | " << info(p).total << "/" << info(p).max << endl;
         adrRelation r = p->goRelation;
         if (r != NULL)
         {
@@ -731,11 +732,14 @@ void addSiswa2Mk(listMatkul &M, listSiswa &S)
             cin >> t;
             if (t == "1")
             {
-                printSiswa(S);
-                cout << "Choose Siswa Name : ";
-                cin >> t;
-                s = find_siswa(S, t);
-
+                s = NULL;
+                if(first(S)!=NULL){
+                    printSiswa(S);
+                    
+                    cout << "Choose Siswa Name : ";
+                    cin >> t;
+                    s = find_siswa(S, t);
+                }
                 if (s != NULL)
                 {
                     if (s->info.jenis == m->info.jenis)
@@ -1097,4 +1101,59 @@ void insertMatkul(listMatkul &M)
         cout << "\nGagal";
     }
     cout << endl;
+}
+
+void save_script(listMatkul M, listSiswa S){
+    ofstream sfile("script.txt");
+    sfile << "//Matkul Data//\n";
+    if(first(M)!=NULL){
+        adrMatkul m = first(M);
+        sfile << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max << endl;
+        m = next(m);
+        while (m != first(M))
+        {
+            sfile <<info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max << endl;
+            m = next(m);
+        }
+    }
+    sfile << "\n//Siswa Data//\n";
+    if (first(S) != NULL)
+    {
+        adrSiswa s = first(S);
+        sfile <<info(s).nama_siswa << " | " << info(s).nim << " | " << info(s).kelas << " | " << info(s).jenis << endl;
+        s = next(s);
+        while (s != first(S))
+        {
+            sfile << info(s).nama_siswa << " | " << info(s).nim << " | " << info(s).kelas << " | " << info(s).jenis << endl;
+            s = next(s);
+        }
+    }
+    
+    if(first(M)!=NULL){
+        sfile << "\n//Relation Data//\n";
+        adrMatkul m = first(M);
+        adrRelation c = m->goRelation;
+        sfile << "! " <<info(m).nama_matkul << "\n";
+        while (c != NULL)
+            {
+                sfile << info(c)->info.nama_siswa << " | ";
+                c = next(c);
+            }
+        m = next(m);
+        c = m->goRelation;
+        sfile << "\n";
+        while(m!=first(M)){
+            sfile << "! " <<info(m).nama_matkul << "\n";
+            while (c != NULL)
+            {
+                sfile << info(c)->info.nama_siswa << " | ";
+                c = next(c);
+            }
+            m = next(m);
+            c = m->goRelation;
+            sfile << "\n";
+        }
+    }
+
+    sfile.close();
 }

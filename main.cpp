@@ -104,6 +104,9 @@ int main()
         {
             printAvailableMatkul(M);
         }
+        else if (n == "15"){
+            save_script(M,S);
+        }
         else if (n != "0")
         { // Exit
             cout << "\nWrong Input\n";
