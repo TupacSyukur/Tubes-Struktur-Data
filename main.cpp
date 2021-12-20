@@ -107,6 +107,11 @@ int main()
         else if (n == "15"){
             save_script(M,S);
         }
+        else if (n == "16"){
+            create_list_matkul(M);
+            create_list_siswa(S);
+            load_script(M,S);
+        }
         else if (n != "0")
         { // Exit
             cout << "\nWrong Input\n";

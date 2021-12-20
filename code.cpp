@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <string>
 
 using namespace std;
 //
@@ -801,7 +802,7 @@ string menu()
     // cout << "4. Edit Siswa\n5. Edit Matkul\n6. Delete Siswa\n";
     cout << "4. Delete Siswa\n5. Delete Matkul\n6. Delete Siswa dalam Matkul\n";
     cout << "7. Print Siswa\n8. Print Matkul\n9. Print Siswa dalam Matkul\n";
-    cout << "10. Cari Siswa\n11. Cari Matkul\n12. Cari Siswa dalam Matkul\n13. Print matkul serta info siswanya\n14. Print matkul yang masih tersedia\n0. Exit\nChoose : ";
+    cout << "10. Cari Siswa\n11. Cari Matkul\n12. Cari Siswa dalam Matkul\n13. Print matkul serta info siswanya\n14. Print matkul yang masih tersedia\n15. Save Data\n16. Load Data\n0. Exit\nChoose : ";
     cin >> n;
     return n;
 }
@@ -1104,56 +1105,159 @@ void insertMatkul(listMatkul &M)
 }
 
 void save_script(listMatkul M, listSiswa S){
-    ofstream sfile("script.txt");
-    sfile << "//Matkul Data//\n";
+    fstream sfile("script.txt");
     if(first(M)!=NULL){
+        sfile << "//MatkulData//\n";
         adrMatkul m = first(M);
-        sfile << info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max << endl;
+        sfile << info(m).nama_matkul << " " << info(m).kelas_matkul << " " << info(m).jenis << " " << 0 << " " << info(m).max << endl;
         m = next(m);
         while (m != first(M))
         {
-            sfile <<info(m).nama_matkul << " | " << info(m).kelas_matkul << " | " << info(m).jenis << " | " << info(m).total << "/" << info(m).max << endl;
+            sfile <<info(m).nama_matkul << " " << info(m).kelas_matkul << " " << info(m).jenis << " " << 0 << " " << info(m).max << endl;
             m = next(m);
         }
     }
-    sfile << "\n//Siswa Data//\n";
+    sfile << "\n//SiswaData//\n";
     if (first(S) != NULL)
     {
         adrSiswa s = first(S);
-        sfile <<info(s).nama_siswa << " | " << info(s).nim << " | " << info(s).kelas << " | " << info(s).jenis << endl;
+        sfile <<info(s).nama_siswa << " " << info(s).nim << " " << info(s).kelas << " " << info(s).jenis << endl;
         s = next(s);
         while (s != first(S))
         {
-            sfile << info(s).nama_siswa << " | " << info(s).nim << " | " << info(s).kelas << " | " << info(s).jenis << endl;
+            sfile << info(s).nama_siswa << " " << info(s).nim << " " << info(s).kelas << " " << info(s).jenis << endl;
             s = next(s);
         }
     }
     
     if(first(M)!=NULL){
-        sfile << "\n//Relation Data//\n";
+        sfile << "\n//RelationData//\n";
         adrMatkul m = first(M);
         adrRelation c = m->goRelation;
-        sfile << "! " <<info(m).nama_matkul << "\n";
+        sfile << "!Data" << "\n" << info(m).nama_matkul << " ";
         while (c != NULL)
             {
-                sfile << info(c)->info.nama_siswa << " | ";
+                sfile << info(c)->info.nama_siswa << " ";
                 c = next(c);
             }
         m = next(m);
         c = m->goRelation;
-        sfile << "\n";
+        sfile << "!\n";
         while(m!=first(M)){
-            sfile << "! " <<info(m).nama_matkul << "\n";
+            sfile << "!Data" << "\n" << info(m).nama_matkul << " ";
             while (c != NULL)
             {
-                sfile << info(c)->info.nama_siswa << " | ";
+                sfile << info(c)->info.nama_siswa << " ";
                 c = next(c);
             }
             m = next(m);
             c = m->goRelation;
-            sfile << "\n";
+            sfile << "!\n";
         }
     }
 
     sfile.close();
+}
+
+void load_script(listMatkul &M, listSiswa &S){
+    ifstream file("script.txt");
+    string line, word;
+    info_matkul im;
+    info_siswa is;
+    adrMatkul pm;
+    adrRelation pr;
+    adrSiswa ps;
+    bool rc = false, mc = false, sc = false; 
+    int mn = 0, sn = 0, rn = 0, n = 0;
+
+    while(getline(file, line)){
+        if(line == "//MatkulData//"){
+
+            mc = true;
+        }
+        if(mc && mn != 0){
+            istringstream ism(line);
+            while(ism){
+                ism >> word;
+                if(mn == 1){
+                    im.nama_matkul = word;
+                }else if(mn == 2){
+                    im.kelas_matkul = word;
+                }else if(mn == 3){
+                    im.jenis = word;
+                }else if(mn == 4){
+                    im.total = stoi(word);
+                }else if(mn == 5){
+                    im.max = stoi(word);
+                }
+                mn++;
+                if(mn == 6){
+                    pm = newMatkul(im);
+                    insert_last_matkul(M,pm);
+                }
+            }
+        }
+        if(line != "//SiswaData//"){
+            mn = 1;
+        }else{
+            mc = false;
+
+            sc = true;
+        }
+        if(sc && sn != 0){
+            istringstream iss(line);
+            while(iss){
+                iss >> word;
+                if(sn == 1){
+                    is.nama_siswa = word;
+                }else if(sn == 2){
+                    is.nim = word;
+                }else if(sn == 3){
+                    is.kelas = word;
+                }else if(sn == 4){
+                    is.jenis = word;
+                }
+                sn++;
+                if(sn == 5){
+                    ps = newSiswa(is);
+                    insert_last_siswa(S,ps);
+                }
+            }
+        }
+        if(line != "//RelationData//"){
+            sn = 1;
+        }else{
+            sc = false;
+            rc = true;
+        }
+        if(rc && rn!=0){
+            if(line == "!Data"){ 
+                n = 0;
+            }
+            if(n==1){
+                istringstream isr(line);
+                while(isr){
+                    isr >> word;
+                    if(n==1){
+                        pm = find_matkul(M, word);
+                    }
+                    if(pm!=NULL){ 
+                        n++;
+                    }
+                    if(n!=1){
+                        ps = find_siswa(S, word);
+                        if(ps!=NULL){
+                            if((info(pm).max!=info(pm).total) && (info(pm).jenis == info(ps).jenis)){
+                                pr = newRelation(ps);
+                                insert_relation(M, pm, pr);
+                                info(pm).total++;
+                            }
+                        }
+                    }
+                }
+            }
+            n=1;
+        }
+        rn = 1;
+    }
 }

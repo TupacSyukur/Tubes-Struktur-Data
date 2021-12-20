@@ -112,6 +112,6 @@ void insertSiswa(listSiswa &S);
 void insertMatkul(listMatkul &M);
 void addSiswa2Mk(listMatkul &M, listSiswa &S);
 void save_script(listMatkul M, listSiswa S);
-
+void load_script(listMatkul &M, listSiswa &S);
 
 #endif // init_H_INCLUDED

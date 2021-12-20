@@ -1,0 +1,15 @@
+//MatkulData//
+STD IF44INT INT 0 4
+STY IF4401 REGULER 0 4
+
+//SiswaData//
+Medina 4 IF4401 REGULER
+Ima 3 IF4401 REGULER
+Iqi 2 IF44INT INT
+Daffa 1 IF44INT INT
+
+//RelationData//
+!Data
+STD Daffa Iqi Ima!
+!Data
+STY Ima Medina Iqi!
