@@ -1106,6 +1106,7 @@ void insertMatkul(listMatkul &M)
 
 void save_script(listMatkul M, listSiswa S){
     fstream sfile("script.txt");
+    sfile << "";
     if(first(M)!=NULL){
         sfile << "//MatkulData//\n";
         adrMatkul m = first(M);
@@ -1117,9 +1118,9 @@ void save_script(listMatkul M, listSiswa S){
             m = next(m);
         }
     }
-    sfile << "\n//SiswaData//\n";
     if (first(S) != NULL)
     {
+        sfile << "\n//SiswaData//\n";
         adrSiswa s = first(S);
         sfile <<info(s).nama_siswa << " " << info(s).nim << " " << info(s).kelas << " " << info(s).jenis << endl;
         s = next(s);
