@@ -3,6 +3,7 @@ STD IF44INT INT 0 4
 STY IF4401 REGULER 0 2
 
 //SiswaData//
+Afina 6 IF44INT INT
 Medina 1301203151 IF44INT INT
 Daffa 1301203150 IF44INT INT
 Iqi 1301203152 IF4401 REGULER
@@ -10,6 +11,6 @@ Ayaka 1301203153 IF4401 REGULER
 
 //RelationData//
 !Data
-STD Daffa Medina !
+STD Daffa Medina Afina !
 !Data
 STY Iqi Ayaka !
